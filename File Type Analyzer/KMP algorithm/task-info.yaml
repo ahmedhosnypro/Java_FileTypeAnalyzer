@@ -178,6 +178,24 @@ files:
         }
     }
   learner_created: false
-feedback_link: https://hyperskill.org/projects/64/stages/344/implement#comment
-status: Unchecked
+- name: src/analyzer/FileTypeChecker.java
+  visible: true
+  learner_created: true
+- name: src/analyzer/substring/finder/SubstringFinder.java
+  visible: true
+  learner_created: true
+- name: src/analyzer/substring/finder/NaiveSearch.java
+  visible: true
+  learner_created: true
+- name: src/analyzer/substring/finder/KMP.java
+  visible: true
+  learner_created: true
+- name: src/analyzer/substring/helper/PrefixFunction.java
+  visible: true
+  learner_created: true
+feedback_link: https://hyperskill.org/learn/step/5486#comment
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Mon, 20 Mar 2023 19:04:26 UTC"
 record: -1

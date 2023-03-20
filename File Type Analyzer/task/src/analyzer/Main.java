@@ -1,33 +1,30 @@
 package analyzer;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import analyzer.substring.finder.KMP;
+import analyzer.substring.finder.NaiveSearch;
 
 public class Main {
     public static void main(String[] args) {
-        if (args.length < 3) {
+        if (args.length < 4) {
             System.out.println("Error");
             System.exit(0);
         }
 
-        String path = args[0];
-        String pattern = args[1];
-        String result = args[2];
+        String algorithm = args[0];
+        String path = args[1];
+        String pattern = args[2];
+        String result = args[3];
 
-        try (InputStream inputStream = new FileInputStream(path)) {
-            var bytes = inputStream.readAllBytes();
-            var text = new String(bytes);
-            if (text.contains(pattern)) {
-                System.out.println(result);
-            } else {
-                System.out.println("Unknown file type");
+        FileTypeChecker fileTypeChecker = new FileTypeChecker();
+        switch (algorithm) {
+            case "--naive" -> fileTypeChecker.setAlgorithm(new NaiveSearch());
+            case "--KMP" -> fileTypeChecker.setAlgorithm(new KMP());
+            default -> {
+                System.out.println("Error");
+                System.exit(0);
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
+
+        fileTypeChecker.search(path, pattern, result);
     }
 }
