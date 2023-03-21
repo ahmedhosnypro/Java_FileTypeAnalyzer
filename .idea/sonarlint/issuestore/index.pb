@@ -45,8 +45,6 @@ x
 HTopics/Iterating over arrays/Cyclically shifting elements/task-info.yaml,d\2\d2344186ee5bc43f0a77ebb40cd3ce66c9edb040
 a
 1Topics/Iterating over arrays/Boxes/task-info.yaml,e\f\ef59f97cef6f62a15930f1fe771892924892064a
-j
-:File Type Analyzer/A question of priorities/task-info.yaml,e\8\e81a80d3edec7b7d8715a282a37ba568fa5ec8a6
 \
 ,File Type Analyzer/Rabin-Karp/task-info.yaml,9\b\9bae7f6bd13e1ff75a685d7ad462175e36e63cad
 h
@@ -79,8 +77,6 @@ _
 -Topics/Iterating over arrays/lesson-info.yaml,6\d\6d06ca61f378c140415137501da705bc4d28841b
 b
 2Topics/Iterating over arrays/Theory/task-info.yaml,8\0\803d9754d06a12ddaa863d1b58804b17c62a8609
-`
-0File Type Analyzer/task/test/ContainsSearch.java,2\c\2c57d6e4d3e5d39a4f29e4bcbb76b94930892010
 m
 =Topics/Iterating over arrays/Alphabetical order/src/Main.java,2\9\29d77522dc456eb58f6855241693373f6e0fdbf1
 `
@@ -109,10 +105,6 @@ b
 2Topics/Iterating over arrays/Triples/src/Main.java,0\f\0f00d408a6201aa5a0df21902725e423dd4d6904
 …
 UTopics/Iterating over arrays/Two numbers never occur next to each other/src/Main.java,b\2\b25533935d98ac6d9821c36c59699a58ebd93c55
-v
-FFile Type Analyzer/task/src/analyzer/substring/finder/NaiveSearch.java,7\1\713c748646f1266de3cbea0e4dc27db2c9bcec7b
-]
--File Type Analyzer/task/test/NaiveSearch.java,7\4\745adb3acc2207801f20b158d08d55119d79f931
 i
 9Topics/Iterating over arrays/Alphabetical order/task.html,1\6\16571dee2b36e52c8ace63b90864592754635138
 \
@@ -153,3 +145,11 @@ g
 7Topics/Iterating over arrays/Select loops/src/Task.java,e\7\e73d8d3fef77e3c02468d3279e27723fce95014c
 a
 1Topics/Iterating over arrays/Theory/src/Task.java,f\1\f12e53e239afd8357a427f7ac48675df19b6713c
+y
+IFile Type Analyzer/task/src/analyzer/substring/helper/PrefixFunction.java,9\0\90c2a3d1d54f6406619158c66306800d3fb8f650
+n
+>File Type Analyzer/task/src/analyzer/substring/finder/KMP.java,4\3\43d51ce8ddd62b5e2f09f64f686544b39cfdd091
+_
+/File Type Analyzer/KMP algorithm/task-info.yaml,c\f\cff3bdb949ea21832ec0445f288fb30f5c44e2ae
+z
+JFile Type Analyzer/task/src/analyzer/substring/finder/SubstringFinder.java,6\9\69cc5316197144ba2ed1f8e08a59f702bfd7529a
