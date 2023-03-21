@@ -5,15 +5,17 @@ import analyzer.substring.finder.NaiveSearch;
 
 public class Main {
     public static void main(String[] args) {
-        if (args.length < 4) {
+        if (args.length < 3) {
             System.out.println("Error");
             System.exit(0);
         }
 
-        String algorithm = args[0];
-        String path = args[1];
-        String pattern = args[2];
-        String result = args[3];
+//        String algorithm = args[0];
+        // stage 3 use only kmp algorithm
+        String algorithm = "--KMP";
+        String path = args[0];
+        String pattern = args[1];
+        String result = args[2];
 
         FileTypeChecker fileTypeChecker = new FileTypeChecker();
         switch (algorithm) {
