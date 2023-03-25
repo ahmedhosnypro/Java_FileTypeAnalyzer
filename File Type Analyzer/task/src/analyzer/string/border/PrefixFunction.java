@@ -1,4 +1,4 @@
-package analyzer.substring.helper;
+package analyzer.string.border;
 
 public class PrefixFunction {
 

@@ -1,6 +1,6 @@
 package analyzer.substring.finder;
 
-import analyzer.substring.helper.PrefixFunction;
+import analyzer.string.border.PrefixFunction;
 
 // The Knuth-Morris-Pratt algorithm
 public class KMP implements SubstringFinder {

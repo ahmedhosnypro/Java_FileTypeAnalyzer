@@ -293,6 +293,317 @@ files:
 
     }
   learner_created: false
+- name: src/analyzer/substring/finder/SubstringFinder.java
+  visible: true
+  text: |
+    package analyzer.substring.finder;
+
+    public interface SubstringFinder {
+        Boolean search(String pattern, String text);
+    }
+  learner_created: true
+- name: src/analyzer/FileTypeChecker.java
+  visible: true
+  text: |
+    package analyzer;
+
+    import analyzer.substring.finder.SubstringFinder;
+    import analyzer.substring.patterns.DatabaseParser;
+    import analyzer.substring.patterns.Pattern;
+
+    import java.io.*;
+    import java.util.ArrayList;
+    import java.util.List;
+    import java.util.concurrent.*;
+
+    public class FileTypeChecker {
+        SubstringFinder algorithm;
+
+        private final ExecutorService executor = Executors.newCachedThreadPool();
+
+        void search(String filesParentDirPath, String databasePath) {
+            //get a list of files in the directory
+            File directory = new File(filesParentDirPath);
+            var fileList = directory.listFiles();
+            assert fileList != null;
+
+            // get a list of patterns from the database
+            var patterns = DatabaseParser.parse(databasePath);
+
+            // Create a list of futures for each file to be processed
+            // to block the main thread till all files are processed
+            var fileProcessors = new ArrayList<Future<?>>();
+
+            // add a task to the executor for each file to be processed
+            // search in files and write results to output stringbuilder
+            var output = new CopyOnWriteArrayList<String>();
+            for (var file : fileList) {
+                fileProcessors.add(executor.submit(() -> search(file, patterns, output)));
+            }
+
+            // wait for all files to be processed
+            try {
+                for (var fileProcessor : fileProcessors) {
+                    fileProcessor.get();
+                }
+            } catch (ExecutionException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            output.forEach(System.out::println);
+        }
+
+        void search(File file, List<Pattern> patterns, List<String> output) {
+            try (InputStream inputStream = new FileInputStream(file)) {
+                var bytes = inputStream.readAllBytes();
+                var text = new String(bytes);
+                search(patterns, text, file.getName(), output);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        void search(List<Pattern> patterns, String text, String fileName, List<String> output) {
+            for (var pattern : patterns) {
+                if (algorithm.search(pattern.getPatternToSearch(), text)) {
+                    output.add(fileName + ": " + pattern.getFileType());
+                    return;
+                }
+            }
+            output.add(fileName + ": " + "Unknown file type");
+        }
+
+        public void setAlgorithm(SubstringFinder algorithm) {
+            this.algorithm = algorithm;
+        }
+    }
+  learner_created: true
+- name: src/analyzer/substring/finder/KMP.java
+  visible: true
+  text: |
+    package analyzer.substring.finder;
+
+    import analyzer.substring.helper.PrefixFunction;
+
+    // The Knuth-Morris-Pratt algorithm
+    public class KMP implements SubstringFinder {
+        /**
+         * The Knuth-Morris-Pratt algorithm
+         * For arbitrary pattern s and text t, the KMP algorithm can be formulated as follows:
+         * 1. Calculate the prefix function p for the pattern s
+         * 2. Set the first substring of the text with length |s| as current.
+         * 3. Compare the pattern with the current substring of the text. If all symbols match, save the index of the found occurrence.
+         * Otherwise, shift the pattern by L - p[L - 1] symbols, where L is the length of the matched substring of the pattern.
+         * 4. Continue step 3 until all substrings of the text are processed. Then, return the found occurrences.
+         */
+        @Override
+        public Boolean search(String pattern, String text) {
+            int[] prefixFunction = PrefixFunction.calculate(pattern);
+            int j = 0;
+            for (int i = 0; i < text.length(); i++) {
+                while (j > 0 && text.charAt(i) != pattern.charAt(j)) {
+                    j = prefixFunction[j - 1];
+                }
+                if (text.charAt(i) == pattern.charAt(j)) {
+                    j++;
+                }
+                if (j == pattern.length()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+  learner_created: true
+- name: src/analyzer/substring/finder/NaiveSearch.java
+  visible: true
+  text: |
+    package analyzer.substring.finder;
+
+    // Just use the built-in String.contains() method
+    public class NaiveSearch implements SubstringFinder {
+        @Override
+        public Boolean search(String pattern, String text) {
+            return text.contains(pattern);
+        }
+    }
+  learner_created: true
+- name: src/analyzer/substring/patterns/Pattern.java
+  visible: true
+  text: |
+    package analyzer.substring.patterns;
+
+    public class Pattern {
+        private final int priority;
+        private final String fileType;
+        private final String patternToSearch;
+
+        public Pattern(int priority, String pattern, String fileType) {
+            this.priority = priority;
+            this.patternToSearch = pattern;
+            this.fileType = fileType;
+        }
+
+        public int getPriority() {
+            return priority;
+        }
+
+        public String getFileType() {
+            return fileType;
+        }
+
+        public String getPatternToSearch() {
+            return patternToSearch;
+        }
+    }
+  learner_created: true
+- name: src/analyzer/substring/patterns/DatabaseParser.java
+  visible: true
+  text: |
+    package analyzer.substring.patterns;
+
+    import java.io.FileInputStream;
+    import java.io.FileNotFoundException;
+    import java.io.IOException;
+    import java.io.InputStream;
+    import java.util.ArrayList;
+    import java.util.List;
+
+    public class DatabaseParser {
+
+        private DatabaseParser() {
+        }
+
+        /*
+         * This class is used to parse the database file and return the patterns with their respective file types and priorities.
+         *  Patterns should be sorted by priority in descending order.
+         * The database file is a text file with the following format:
+         * priority; pattern; file type
+         * 4;"PK";"Zip archive"
+         * 7;"word/_rels";"MS Office Word 2007+"
+         * 7;"ppt/_rels";"MS Office PowerPoint 2007+"
+         * 7;"xl/_rels";"MS Office Excel 2007+
+         */
+
+        public static List<Pattern> parse(String databasePath) {
+            List<Pattern> patterns = new ArrayList<>();
+            try (InputStream fileInputStream = new FileInputStream(databasePath)) {
+                var bytes = fileInputStream.readAllBytes();
+                var text = new String(bytes);
+                var lines = text.split("\n");
+                for (var line : lines) {
+                    var parts = line.split(";");
+                    var priority = Integer.parseInt(parts[0]);
+                    var pattern = parts[1].replace("\"", "");
+                    var fileType = parts[2].replace("\"", "");
+                    patterns.add(new Pattern(priority, pattern, fileType));
+                }
+
+                // sort the patterns by priority in descending order
+                patterns.sort((o1, o2) -> o2.getPriority() - o1.getPriority());
+                return patterns;
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+  learner_created: true
+- name: src/analyzer/string/border/PrefixFunction.java
+  visible: true
+  text: |
+    package analyzer.substring.helper;
+
+    public class PrefixFunction {
+
+        private PrefixFunction() {
+        }
+
+        /**
+         * Calculate the prefix function of a string of a length n using these steps:
+         * 1. Set p[0] = 0. Do the following for every i from 0 to n - 1:
+         * 2. Define j = p[i-1]
+         * 3. If s[j] = s[i], set p[i] = j + 1.
+         * 4. Otherwise, take j = p[j - 1] and repeat step 3. If we reach j = 0 and there is no match,
+         * we conclude that p[i] = 0.
+         */
+        public static int[] calculate(String pattern) {
+            int[] prefixFunction = new int[pattern.length()];
+            prefixFunction[0] = 0;
+            for (int i = 1; i < pattern.length(); i++) {
+                int j = prefixFunction[i - 1];
+                while (j > 0 && pattern.charAt(i) != pattern.charAt(j)) {
+                    j = prefixFunction[j - 1];
+                }
+                if (pattern.charAt(i) == pattern.charAt(j)) {
+                    j++;
+                }
+                prefixFunction[i] = j;
+            }
+            return prefixFunction;
+        }
+    }
+  learner_created: true
+- name: src/analyzer/string/hash/StringHash.java
+  visible: true
+  learner_created: true
+- name: src/analyzer/string/hash/PolynomialHash.java
+  visible: true
+  learner_created: true
+- name: src/analyzer/string/hash/LinearHash.java
+  visible: true
+  learner_created: true
+- name: src/analyzer/substring/finder/RabinKarp.java
+  visible: true
+  learner_created: true
+- name: patterns.db
+  visible: true
+  learner_created: true
+- name: test_files/text.pdf
+  visible: true
+  learner_created: true
+- name: test_files/doc.pdf
+  visible: true
+  learner_created: true
+- name: test_files/slides2.ptp
+  visible: true
+  learner_created: true
+- name: test_files/slides1.ptp
+  visible: true
+  learner_created: true
+- name: test_files/sheet1.xls
+  visible: true
+  learner_created: true
+- name: test_files/sheet2.xls
+  visible: true
+  learner_created: true
+- name: test_files/tape3.mp4
+  visible: true
+  learner_created: true
+- name: test_files/tape3.jpg
+  visible: true
+  learner_created: true
+- name: test_files/doc.txt
+  visible: true
+  learner_created: true
+- name: test_files/txt.doc
+  visible: true
+  learner_created: true
+- name: test_files/slides2.odp
+  visible: true
+  learner_created: true
+- name: test_files/slides1.odp
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/5489#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Well done! You've finished the project. Select a new project on <a href="https://hyperskill.org/projects">Hyperskill</a>
+    to continue learning.
+  time: "Sat, 25 Mar 2023 18:37:25 UTC"
 record: -1

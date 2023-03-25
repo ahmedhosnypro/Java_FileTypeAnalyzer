@@ -145,11 +145,37 @@ g
 7Topics/Iterating over arrays/Select loops/src/Task.java,e\7\e73d8d3fef77e3c02468d3279e27723fce95014c
 a
 1Topics/Iterating over arrays/Theory/src/Task.java,f\1\f12e53e239afd8357a427f7ac48675df19b6713c
-y
-IFile Type Analyzer/task/src/analyzer/substring/helper/PrefixFunction.java,9\0\90c2a3d1d54f6406619158c66306800d3fb8f650
-n
->File Type Analyzer/task/src/analyzer/substring/finder/KMP.java,4\3\43d51ce8ddd62b5e2f09f64f686544b39cfdd091
 _
 /File Type Analyzer/KMP algorithm/task-info.yaml,c\f\cff3bdb949ea21832ec0445f288fb30f5c44e2ae
 z
 JFile Type Analyzer/task/src/analyzer/substring/finder/SubstringFinder.java,6\9\69cc5316197144ba2ed1f8e08a59f702bfd7529a
+j
+:File Type Analyzer/A question of priorities/task-info.yaml,e\8\e81a80d3edec7b7d8715a282a37ba568fa5ec8a6
+S
+#File Type Analyzer/lesson-info.yaml,4\b\4b34dd82462cdea4b805902b29ec4381175090f2
+<
+build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
+X
+(File Type Analyzer/Wanted/task-info.yaml,9\c\9c1889c2992838aef2b572fc30d75cc9844e159b
+?
+settings.gradle,0\5\05efc8b1657769a27696d478ded1e95f38737233
+G
+course-remote-info.yaml,8\e\8ebfd624cee09c71902f5a4e0950d589f705f81d
+S
+#.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
+V
+&File Type Analyzer/task/test/Clue.java,b\9\b946793681d35316d17b2233d6ec6ab2296a9785
+t
+DFile Type Analyzer/task/src/analyzer/substring/patterns/Pattern.java,8\8\88c1dbd402eb537f862c70cfcb32175f38673810
+{
+KFile Type Analyzer/task/src/analyzer/substring/patterns/DatabaseParser.java,a\7\a7fd47bf8a3ad2e51db85e67dd7ef2d817d98334
+v
+FFile Type Analyzer/task/src/analyzer/substring/finder/NaiveSearch.java,7\1\713c748646f1266de3cbea0e4dc27db2c9bcec7b
+n
+>File Type Analyzer/task/src/analyzer/substring/finder/KMP.java,4\3\43d51ce8ddd62b5e2f09f64f686544b39cfdd091
+^
+.Topics/Currying/Curried function/src/Main.java,4\b\4b3ceb207af37389264d504e05d58e74f995a159
+b
+2Topics/Currying/String concatenation/src/Main.java,c\c\ccafad347184ab3704a8a6ba52678ae510ee979f
+v
+FFile Type Analyzer/task/src/analyzer/string/border/PrefixFunction.java,6\a\6afce6cb01ae7a6afa697bdd0bd49be463d2970c
